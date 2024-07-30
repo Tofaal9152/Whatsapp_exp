@@ -1,11 +1,10 @@
 import dotenv from 'dotenv'
 import express from 'express'
-import connectDB from './config/database.js'
-import userRouter from './routes/userRouter.js'
 import cookieParser from 'cookie-parser'
-
+import userRouter from './routes/user.js'
+import messageRouter from './routes/message.js'
+import connectDB from './config/database.js'
 dotenv.config({})
-
 const app = express()
 const port = process.env.PORT || 5050
 
@@ -13,7 +12,9 @@ const port = process.env.PORT || 5050
 app.use(express.json())
 app.use(cookieParser())
 // routes
-app.use("/api/v1/user", userRouter) //http://localhost:8000/api/v1/user/register
+app.use("/api/v1/user", userRouter)
+app.use("/api/v1/message", messageRouter)
+
 
 app.listen(port, () => {
     connectDB()

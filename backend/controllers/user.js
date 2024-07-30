@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import { User } from "../models/userModel.js"
+import { User } from "../models/user.js"
 import { sendRequest } from "../utils/feature.js"
 
 export const register = async (req, res) => {
@@ -42,7 +42,7 @@ export const login = async (req, res) => {
         if (!username || !password) {
             return sendRequest(res, 400, false, "All fields are required")
         }
-
+        
         const user =await User.findOne({username})
         if (!user) {
             return sendRequest(res, 400, false, "Invalid username or password")
@@ -55,6 +55,7 @@ export const login = async (req, res) => {
         const tokenData = {
             userId:user._id
         }
+        req.luda = tokenData
         const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY,{expiresIn:'1d'})
         res.status(200).cookie("token",token,{
             maxAge:1000*60*60*24,
@@ -64,7 +65,7 @@ export const login = async (req, res) => {
             success:true,  
             message:"cookies create successfully"
         })
-        // sendRequest(res, 201, true, "Log in successfully") 
+
  
     } catch (error) {
         sendRequest(res, 500, false, "Internal server error")
@@ -83,12 +84,14 @@ export const logout = async (req,res) =>{
         console.log(error); 
     }
 }
+
 export const getOtheruser = async (req,res) =>{
     try {
-        const loggedInUser = req.id
-        const otherUser = 
+        const loggedInUser = req.id.userId
+        const otherUser = await User.find({_id:{$ne: loggedInUser}}).select("-password")
+        return sendRequest(res,200,true,otherUser)
     } catch (error) {
-        sendRequest(res, 500, false, "Internal server error")
-        console.log(error); 
+        sendRequest(res, 500, false, "Internal server error getOtheruser")
+
     }
 }

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { sendRequest } from "../utils/feature";
+import { sendRequest } from "../utils/feature.js";
 
 export const isAuthenticated = async (req, res, next) => {
     try {
@@ -11,9 +11,9 @@ export const isAuthenticated = async (req, res, next) => {
         if (!decode) {
             return sendRequest(res, 400, false, "Invalid token in isAuthenticated")
         }
-        req.id = decode
+        req.id = decode   
         next()
     } catch (error) {
-        console.log(error);
+        sendRequest(res, 500, false, "Internal server error isAuthenticated")
     }
 }
