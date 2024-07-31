@@ -48,7 +48,7 @@ export const getMessage = async (req, res) => {
         }).populate("messages")
 
         console.log(conversation);
-        sendRequest(res, 201, true, "working getMessage")
+        sendRequest(res, 201, true, conversation)
     } catch (error) {
         sendRequest(res, 400, false, "internal server error getMessage")
 

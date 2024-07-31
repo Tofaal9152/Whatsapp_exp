@@ -1,10 +1,16 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-
-// form
+import toast from "react-hot-toast";
+// import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
+  const router = useRouter();
+  // const dispatch = useDispatch();
+  // const authUser = useSelector((state) => state.USER.authUser);
+
   const {
     register,
     handleSubmit,
@@ -12,8 +18,25 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/user/login",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(res.data.message);
+      router.push("/");
+      console.log(res);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
   };
   return (
     <div className="h-full w-[25rem] bg-blue-500 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 p-7 shadow-2xl">
@@ -21,7 +44,6 @@ const Login = () => {
         Log In
       </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-       
         <div className="mb-4">
           <label className="block text-black text-sm mb-2">Username</label>
           <input

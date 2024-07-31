@@ -1,10 +1,11 @@
+import Homepage from "./components/homepage/Homepage";
 
 const page = () => {
   return (
-    <div >
-      <button className="btn btn-active btn-secondary">Secondary</button>
+    <div>
+      <Homepage />
     </div>
-  )
-}
+  );
+};
 
-export default page 
+export default page;

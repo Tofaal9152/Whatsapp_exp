@@ -11,13 +11,20 @@ export const register = async (req, res) => {
 
         if (!fullname || !username || !password || !confirmpassword || !gender) {
             return sendRequest(res, 400, false, "All fields are required")
-        } else if (password !== confirmpassword) {
+        }
+
+        const isFoundUser = await User.findOne({ username })
+        if (isFoundUser) {
+            return sendRequest(res, 400, false, "username already exist")
+        }
+
+        if (password !== confirmpassword) {
             return sendRequest(res, 400, false, "Password does not match")
         }
 
         const hashPassword = await bcrypt.hash(password, 10)
 
-        const profilePhotobyapi = `https://i.pravatar.cc/300?username=${username}`
+        const profilePhotobyapi = `https://i.pravatar.cc/300`
 
         await User.create({
             fullname,
@@ -45,7 +52,7 @@ export const login = async (req, res) => {
         
         const user =await User.findOne({username})
         if (!user) {
-            return sendRequest(res, 400, false, "Invalid username or password")
+            return sendRequest(res, 400, false, "Username does'nt exist")
         }
         const isPasswordMatch = await bcrypt.compare(password,user.password)
         if (!isPasswordMatch) {
@@ -63,7 +70,8 @@ export const login = async (req, res) => {
             sameSite:"strict"
         }).json({
             success:true,  
-            message:"cookies create successfully"
+            message:"Log in successfully",
+           
         })
 
  

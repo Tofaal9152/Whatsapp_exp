@@ -1,10 +1,14 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-
-// form
+import toast from "react-hot-toast";
 
 const Register = () => {
+
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -12,13 +16,27 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     try {
-      
-    } catch (error) {
-      
+      const res = await axios.post(
+        `http://localhost:8000/api/v1/user/register`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+       if (res.data.success === true) {
+        router.push('/login')
+         toast.success(res.data.message);
+       }
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message);
     }
-    console.log(data);
   };
   return (
     <div className="h-full w-[25rem] bg-blue-500 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 p-7 shadow-2xl">
@@ -29,7 +47,7 @@ const Register = () => {
         <div className="mb-4">
           <label className="block text-black text-sm mb-2">Full Name</label>
           <input
-            {...register("fullName")}
+            {...register("fullname")}
             type="text"
             className="w-full text-[1rem] px-3 py-[0.47rem] border border-none outline-none rounded-md"
             placeholder="Enter your name"
@@ -58,7 +76,7 @@ const Register = () => {
             Confirm Password
           </label>
           <input
-            {...register("confirmPassword")}
+            {...register("confirmpassword")}
             type="password"
             className="w-full px-3 text-[1rem] py-[0.47rem] border border-none outline-none rounded-md"
             placeholder="Confirm your password"
@@ -71,7 +89,7 @@ const Register = () => {
               Male
             </label>
             <input
-             {...register("gender")}
+              {...register("gender")}
               id="male"
               type="radio"
               name="gender"
@@ -83,7 +101,7 @@ const Register = () => {
               Female
             </label>
             <input
-             {...register("gender")}
+              {...register("gender")}
               id="female"
               type="radio"
               name="gender"
