@@ -18,7 +18,7 @@ const getOtherUser = () => {
         dispath(seGetAllUser( data ));
         // console.log(res);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
 

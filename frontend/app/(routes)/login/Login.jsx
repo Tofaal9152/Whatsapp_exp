@@ -32,10 +32,10 @@ const Login = () => {
       );
       toast.success(res.data.message);
       router.push("/");
-      console.log(res);
+      // console.log(res);
     } catch (error) {
       toast.error(error.response.data.message);
-      console.log(error);
+      // console.log(error);
     }
   };
   return (

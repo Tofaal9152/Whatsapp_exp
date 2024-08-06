@@ -31,7 +31,7 @@ export const sendMessage = async (req, res) => {
         }
         await gotConversation.save()
         // SOCKET Io
-        sendRequest(res, 201, true, "working")
+        sendRequest(res, 201, true, newMessage)
     } catch (error) {
         console.log(error);
         sendRequest(res, 400, false, "internal server error sendmessage")

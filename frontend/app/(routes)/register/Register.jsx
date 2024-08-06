@@ -32,9 +32,9 @@ const Register = () => {
         router.push('/login')
          toast.success(res.data.message);
        }
-        console.log(res);
+        // console.log(res);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         toast.error(error.response.data.message);
     }
   };

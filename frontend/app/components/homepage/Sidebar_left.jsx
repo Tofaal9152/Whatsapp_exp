@@ -7,23 +7,23 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export default () => {
-  // Get All Logged in user
-
-  getOtherUser();
-  const { getAllUser } = useSelector((e) => e.USER);
-  if (!getAllUser) return;
-
-  // log out session
   const router = useRouter()
+  // Get All Logged in user
+  getOtherUser();
 
+  const { getAllUser } = useSelector((e) => e.USER);
+  // if (!getAllUser) return;
+
+  
+  // log out session
   const logOutSession = async () => {
     try {
       const res = await axios.get(`http://localhost:8000/api/v1/user/logout`);
       toast.success(res.data.message);
       router.push('/login')
-      console.log(res);
+      // console.log(res);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -49,7 +49,7 @@ export default () => {
       </form>
       {/* people */}
       <section className="overflow-y-auto flex-1">
-        {getAllUser.map((item, index) => {
+        {getAllUser?.map((item, index) => {
           return <People key={item?._id} item={item} />;
         })}
       </section>
