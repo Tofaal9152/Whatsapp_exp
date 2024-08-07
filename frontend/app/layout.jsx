@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { ReduxProvider } from "./redux/ReduxProvider";
+import ReduxProvider from "./redux/ReduxProvider";
+import SocketProvider from "./redux/SocketProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +16,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className} h-screen flex-center`}>
         <ReduxProvider>
-          {children}
-          <Toaster />
+          <SocketProvider>
+            {children}
+            <Toaster />
+          </SocketProvider>
         </ReduxProvider>
       </body>
     </html>

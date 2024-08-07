@@ -47,7 +47,7 @@ export const getMessage = async (req, res) => {
             participents: { $all: [senderId, receiverId] }
         }).populate("messages")
 
-        console.log(conversation);
+        // console.log(conversation);
         sendRequest(res, 201, true, conversation)
     } catch (error) {
         sendRequest(res, 400, false, "internal server error getMessage")
