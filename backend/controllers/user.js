@@ -24,7 +24,7 @@ export const register = async (req, res) => {
 
         const hashPassword = await bcrypt.hash(password, 10)
 
-        const profilePhotobyapi = `https://i.pravatar.cc/300`
+        const profilePhotobyapi = `https://i.pravatar.cc/300?username=${username}`
 
         await User.create({
             fullname,
@@ -71,6 +71,7 @@ export const login = async (req, res) => {
         }).json({
             success:true,  
             message:"Log in successfully",
+            user
            
         })
 

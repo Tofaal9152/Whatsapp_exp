@@ -5,7 +5,7 @@ import { setMessagesRedux } from "../redux/features/user/userSlice";
 
 const getMessageFromId = () => {
   const dispatch = useDispatch()
-  const { selectedUser } = useSelector((state) => state.USER);
+  const { selectedUser } = useSelector((state) => state?.USER);
 
   useEffect(() => {
     const getMessageFromId = async () => {
@@ -15,7 +15,7 @@ const getMessageFromId = () => {
           `http://localhost:8000/api/v1/message/getmessages/${selectedUser?._id}`
         );
         dispatch(setMessagesRedux(res?.data?.message?.messages));
-        // console.log(res?.data?.message?.messages);
+
       } catch (error) {
         // console.log(error);
       }

@@ -8,7 +8,7 @@ export const userSlice = createSlice({
 
     // 
     initialState: {
-        // authUser: null,
+        authUser: null,
         getAllUser: null,
         selectedUser: null,
         messagesRedux: null,
@@ -16,9 +16,9 @@ export const userSlice = createSlice({
 
     // 
     reducers: {
-        // setAuthUser: (state, action) => {
-        //     state.authUser = action.payload
-        // },
+        setAuthUser: (state, action) => {
+            state.authUser = action.payload
+        },
         seGetAllUser: (state, action) => {
             state.getAllUser = action.payload
         },

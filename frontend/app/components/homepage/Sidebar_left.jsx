@@ -7,20 +7,17 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export default () => {
-  const router = useRouter()
-  // Get All Logged in user
+  const router = useRouter();
+
   getOtherUser();
 
   const { getAllUser } = useSelector((e) => e.USER);
-  // if (!getAllUser) return;
 
-  
-  // log out session
   const logOutSession = async () => {
     try {
       const res = await axios.get(`http://localhost:8000/api/v1/user/logout`);
       toast.success(res.data.message);
-      router.push('/login')
+      router.push("/login");
       // console.log(res);
     } catch (error) {
       // console.log(error);

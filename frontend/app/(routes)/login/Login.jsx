@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "../../redux/features/user/userSlice";
 
 const Login = () => {
   const router = useRouter();
-  // const dispatch = useDispatch();
-  // const authUser = useSelector((state) => state.USER.authUser);
+  const dispatch = useDispatch();
+
 
   const {
     register,
@@ -30,12 +31,11 @@ const Login = () => {
           withCredentials: true,
         }
       );
+      dispatch(setAuthUser(res?.data?.user))
       toast.success(res.data.message);
       router.push("/");
-      // console.log(res);
     } catch (error) {
       toast.error(error.response.data.message);
-      // console.log(error);
     }
   };
   return (
