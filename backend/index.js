@@ -5,6 +5,8 @@ import dotenv from 'dotenv'
 import userRouter from './routes/user.js'
 import messageRouter from './routes/message.js'
 import connectDB from './config/database.js'
+import { createServer } from 'node:http';
+import {initializeSocket} from './socket/socket.js'
 dotenv.config({})
 
 const app = express()
@@ -20,12 +22,17 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors(corsOptions));
 
-
 // Routes
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/message", messageRouter)
 
-app.listen(port, () => {
+// socket io
+
+const server = createServer(app);
+initializeSocket(server)
+
+
+server.listen(port, () => {
     connectDB()
     console.log(`app is running on port ${port}`)
 }) 
